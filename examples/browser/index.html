@@ -1,0 +1,43 @@
+<html>
+  <head>
+    <script src="https://cdn.jsdelivr.net/npm/vue"></script>
+    <script src="../../dist/nem-tx-des.js"></script>
+    <link rel="stylesheet" type="text/css" href="main.css" />
+  </head>
+  <body>
+    <div id="app">
+      <div>
+        <textarea v-model="serialized" placeholder="Put offline transaction"></textarea>
+      </div>
+      <div>
+        {{ message }}
+      </div>
+      <div>
+        <dl>
+          <dt>Recipient</dt>
+          <dd>{{ deserialized['recipient'] }}</dd>
+          <dt>Amount</dt>
+          <dd>{{ deserialized['amount'] | uxem2xem }}</dd>
+          <dt>Message</dt>
+          <dd>{{ deserialized['message'] }}</dd>
+          <dt>Fee</dt>
+          <dd>{{ deserialized['fee'] | uxem2xem }}</dd>
+          <dt>Timestamp</dt>
+          <dd>{{ deserialized['timeStamp'] | nemtime2time }}</dd>
+          <dt>Deadline</dt>
+          <dd>{{ deserialized['deadline'] | nemtime2time }}</dd>
+          <dt>Singer</dt>
+          <dd>{{ deserialized['signer'] }}</dd>
+          <dt>Type</dt>
+          <dd>{{ deserialized['type'] }}</dd>
+          <dt>Version</dt>
+          <dd>{{ deserialized['version'] }}</dd>
+        </dl>
+      </div>
+    </div>
+    <div>
+      <a href="https://github.com/44uk/nem-tx-des" target="_blank">44uk/nem-tx-des</a>
+    </div>
+    <script src="./main.js"></script>
+  </body>
+</html>

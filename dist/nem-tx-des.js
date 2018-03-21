@@ -1,4 +1,7 @@
-const _methods = {
+(function(f){if(typeof exports==="object"&&typeof module!=="undefined"){module.exports=f()}else if(typeof define==="function"&&define.amd){define([],f)}else{var g;if(typeof window!=="undefined"){g=window}else if(typeof global!=="undefined"){g=global}else if(typeof self!=="undefined"){g=self}else{g=this}g.nemTxDes = f()}})(function(){var define,module,exports;return (function(){function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s}return e})()({1:[function(require,module,exports){
+'use strict';
+
+var _methods = {
   257: transfer,
   2049: importanceTransfer,
   4097: multisigAggregateModification,
@@ -6,7 +9,7 @@ const _methods = {
   4100: multisig,
   8193: provisionNamespace,
   16385: mosaicDefinitionCreation,
-  16386: mosaicSupplyChange,
+  16386: mosaicSupplyChange
 };
 
 function parse(serialized) {
@@ -20,10 +23,10 @@ function parse(serialized) {
 }
 
 function deserialize(serialized) {
-  const obj = {};
-  const hexa = hexString2a(serialized);
-  const comm = common(hexa.slice(0, 60));
-  const spec = specify(hexa.slice(60, hexa.length), comm.type);
+  var obj = {};
+  var hexa = hexString2a(serialized);
+  var comm = common(hexa.slice(0, 60));
+  var spec = specify(hexa.slice(60, hexa.length), comm.type);
   Object.assign(obj, comm, spec);
   return obj;
 }
@@ -35,29 +38,29 @@ function common(hexa) {
     timeStamp: hexa2int(hexa.slice(8, 12)),
     signer: hexa.slice(16, 48).join(''),
     fee: hexa2int(hexa.slice(48, 56)),
-    deadline: hexa2int(hexa.slice(56, 60)),
+    deadline: hexa2int(hexa.slice(56, 60))
   };
 }
 
 function specify(hexa, type) {
-  const method = _methods[type];
+  var method = _methods[type];
   if (method == null) {
-    throw new Error(`unknown transaction type: ${type}`);
+    throw new Error('unknown transaction type: ' + type);
   }
   return method(hexa);
 }
 
 function transfer(hexa) {
-  const obj = {
+  var obj = {
     recipient: hexa2ascii(hexa.slice(4, 44)),
-    amount: hexa2int(hexa.slice(44, 52)),
+    amount: hexa2int(hexa.slice(44, 52))
   };
-  const msgLen = hexa2int(hexa.slice(52, 56));
+  var msgLen = hexa2int(hexa.slice(52, 56));
   if (msgLen > 0) {
-    const payloadLen = hexa2int(hexa.slice(60, 64));
+    var payloadLen = hexa2int(hexa.slice(60, 64));
     obj.message = {
       type: hexa2int(hexa.slice(56, 60)),
-      payload: hexa2utf8(hexa.slice(64, 64 + payloadLen)),
+      payload: hexa2utf8(hexa.slice(64, 64 + payloadLen))
     };
   }
   // TODO: mosaic transfer
@@ -97,44 +100,45 @@ function hexString2a(hex) {
 }
 
 function hexa2int(hexa) {
-  const rhexa = hexa.reverse();
-  const hex = rhexa.join('');
+  var rhexa = hexa.reverse();
+  var hex = rhexa.join('');
   return parseInt(new Int32Array([parseInt(hex, 16)]));
 }
 
 function hexa2ascii(hexa) {
-  let str = '';
-  for (let i = 0; i < hexa.length; i++) {
+  var str = '';
+  for (var i = 0; i < hexa.length; i++) {
     str += String.fromCharCode(parseInt(hexa[i], 16));
   }
   return str;
 }
 
 function hexa2utf8(hexa) {
-  const inta = hexa.map(hex => parseInt(hex, 16));
-  let out = '';
-  let i;
+  var inta = hexa.map(function (hex) {
+    return parseInt(hex, 16);
+  });
+  var out = '';
+  var i = void 0;
   while (i = inta.shift()) {
     if (i <= 0x7f) {
       out += String.fromCharCode(i);
     } else if (i <= 0xdf) {
-      const c = ((i & 0x1f) << 6)
-        + (inta.shift() & 0x3f);
+      var c = ((i & 0x1f) << 6) + (inta.shift() & 0x3f);
       out += String.fromCharCode(c);
     } else if (i <= 0xe0) {
-      const c = (((inta.shift() & 0x1f) << 6) | 0x0800)
-        + (inta.shift() & 0x3f);
-      out += String.fromCharCode(c);
+      var _c = ((inta.shift() & 0x1f) << 6 | 0x0800) + (inta.shift() & 0x3f);
+      out += String.fromCharCode(_c);
     } else {
-      const c = ((i & 0x0f) << 12)
-        + ((inta.shift() & 0x3f) << 6)
-        + (inta.shift() & 0x3f);
-      out += String.fromCharCode(c);
+      var _c2 = ((i & 0x0f) << 12) + ((inta.shift() & 0x3f) << 6) + (inta.shift() & 0x3f);
+      out += String.fromCharCode(_c2);
     }
   }
   return out;
 }
 
 module.exports = {
-  parse,
+  parse: parse
 };
+
+},{}]},{},[1])(1)
+});
