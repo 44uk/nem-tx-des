@@ -6,7 +6,8 @@
   "main": "index.js",
   "scripts": {
     "test": "jest",
-    "lint": "eslint index.js --fix"
+    "lint": "eslint index.js --fix",
+    "browserify": "mkdir -p dist && browserify index.js -s nem-tx-des -t [ babelify --presets [ env ] ] > dist/nem-tx-des.js"
   },
   "keywords": [
     "blockchain",
@@ -21,12 +22,19 @@
   },
   "license": "MIT",
   "devDependencies": {
-    "eslint": "^4.18.2",
+    "babel-cli": "^6.26.0",
+    "babel-core": "^6.26.0",
+    "babel-preset-babili": "^0.1.4",
+    "babel-preset-env": "^1.6.1",
+    "babelify": "^8.0.0",
+    "browserify": "^16.1.1",
+    "eslint": "^4.19.0",
     "eslint-config-airbnb": "^16.1.0",
     "eslint-config-google": "^0.9.1",
     "eslint-plugin-import": "^2.9.0",
     "eslint-plugin-jsx-a11y": "^6.0.3",
     "eslint-plugin-react": "^7.7.0",
-    "jest": "^22.4.2"
+    "jest": "^22.4.2",
+    "uglify-js": "^3.3.16"
   }
 }
