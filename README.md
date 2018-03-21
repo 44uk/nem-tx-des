@@ -6,4 +6,6 @@ Deserialize nem transaction.
 
 ## Demo
 
-TODO: soon.
+* [https://44uk\.github\.io/nem\-tx\-des/](https://44uk.github.io/nem-tx-des/)
+
+Paste a offline transaction created by NanoWallet.
