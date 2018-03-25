@@ -20,8 +20,12 @@ function parse(serialized) {
 }
 
 function deserialize(serialized) {
-  const obj = {};
   const hexa = hexString2a(serialized);
+  return transaction(hexa)
+}
+
+function transaction(hexa) {
+  const obj = {};
   const comm = common(hexa.slice(0, 60));
   const spec = specify(hexa.slice(60, hexa.length), comm.type);
   Object.assign(obj, comm, spec);
@@ -77,7 +81,9 @@ function multisigSignature(hexa) {
 }
 
 function multisig(hexa) {
-  throw new Error('not implemented.');
+  msigLen = hexa2int(hexa.slice(0, 4))
+  other = hexa.slice(4, 4 + msigLen)
+  return { otherTrans: transaction(other) }
 }
 
 function provisionNamespace(hexa) {
