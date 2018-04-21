@@ -1,42 +1,95 @@
 <html>
   <head>
+    <title>nem transaction deserializer</title>
     <script src="https://cdn.jsdelivr.net/npm/vue"></script>
     <script src="../../dist/nem-tx-des.js"></script>
-    <link rel="stylesheet" type="text/css" href="main.css" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300italic,700,700italic">
+    <link rel="stylesheet" href="https://cdn.rawgit.com/necolas/normalize.css/master/normalize.css">
+    <link rel="stylesheet" href="https://cdn.rawgit.com/milligram/milligram/master/dist/milligram.min.css">
+    <link rel="stylesheet" href="main.css" />
   </head>
   <body>
-    <div id="app">
-      <div>
-        <textarea v-model="serialized" placeholder="Put offline transaction"></textarea>
+    <div id="app" class="container" style="padding-top:10px">
+      <div class="row">
+        <div class="column">
+          <label>Offline Transaction</label>
+          <textarea v-model="serialized" placeholder="Put offline transaction"></textarea>
+        </div>
       </div>
-      <div>
-        {{ message }}
+      <div class="row" v-if="message">
+        <div class="column">
+          <blockquote>
+            <p><em>{{ message }}</em></p>
+          </blockquote>
+        </div>
       </div>
-      <div>
-        <dl>
-          <dt>Recipient</dt>
-          <dd>{{ deserialized['recipient'] }}</dd>
-          <dt>Amount</dt>
-          <dd>{{ deserialized['amount'] | uxem2xem }}</dd>
-          <dt>Message</dt>
-          <dd>{{ deserialized['message'] }}</dd>
-          <dt>Fee</dt>
-          <dd>{{ deserialized['fee'] | uxem2xem }}</dd>
-          <dt>Timestamp</dt>
-          <dd>{{ deserialized['timeStamp'] | nemtime2time }}</dd>
-          <dt>Deadline</dt>
-          <dd>{{ deserialized['deadline'] | nemtime2time }}</dd>
-          <dt>Singer</dt>
-          <dd>{{ deserialized['signer'] }}</dd>
-          <dt>Type</dt>
-          <dd>{{ deserialized['type'] }}</dd>
-          <dt>Version</dt>
-          <dd>{{ deserialized['version'] }}</dd>
-        </dl>
+      <hr />
+      <div class="row">
+        <div class="column">
+          <label>Recipient</label>
+          <input readonly :value="deserialized['recipient']" />
+        </div>
       </div>
-    </div>
-    <div>
-      <a href="https://github.com/44uk/nem-tx-des" target="_blank">44uk/nem-tx-des</a>
+      <div class="row">
+        <div class="column">
+          <label>Amount</label>
+          <input readonly :value="deserialized['amount'] | uxem2xem" />
+        </div>
+      </div>
+      <div class="row" v-if="deserialized['message']">
+        <div class="column">
+          <label>Message</label>
+          <input readonly :value="deserialized['message']['type'] | messageType2str" />
+          <textarea readonly>{{ deserialized['message']['payload'] }}</textarea>
+        </div>
+      </div>
+      <div class="row">
+        <div class="column">
+          <label>Fee</label>
+          <input readonly :value="deserialized['fee'] | uxem2xem" />
+        </div>
+      </div>
+      <div class="row">
+        <div class="column">
+          <label>Timestamp</label>
+          <input readonly :value="deserialized['timeStamp'] | nemtime2time" />
+        </div>
+      </div>
+      <div class="row">
+        <div class="column">
+          <label>Deadline</label>
+          <input readonly :value="deserialized['deadline'] | nemtime2time" />
+        </div>
+      </div>
+      <div class="row">
+        <div class="column">
+          <label>Singer</label>
+          <input readonly :value="deserialized['signer']" />
+        </div>
+      </div>
+      <div class="row">
+        <div class="column">
+          <label>Type</label>
+          <input readonly :value="deserialized['type'] | type2str" />
+        </div>
+      </div>
+      <div class="row">
+        <div class="column">
+          <label>Version</label>
+          <input readonly :value="deserialized['version'] | version2str" />
+        </div>
+      </div>
+      <div class="row">
+        <div class="column">
+          <label>Signature</label>
+          <textarea readonly>{{ signature }}</textarea>
+        </div>
+      </div>
+      <div class="row">
+        <div class="column">
+          <a class="button button-small" href="https://github.com/44uk/nem-tx-des" target="_blank">source on github.com 44uk/nem-tx-des</a>
+        </div>
+      </div>
     </div>
     <script src="./main.js"></script>
   </body>
