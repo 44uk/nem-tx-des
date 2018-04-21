@@ -21,7 +21,7 @@ function parse(serialized) {
 
 function deserialize(serialized) {
   const hexa = hexString2a(serialized);
-  return transaction(hexa)
+  return transaction(hexa);
 }
 
 function transaction(hexa) {
@@ -81,9 +81,9 @@ function multisigSignature(hexa) {
 }
 
 function multisig(hexa) {
-  msigLen = hexa2int(hexa.slice(0, 4))
-  other = hexa.slice(4, 4 + msigLen)
-  return { otherTrans: transaction(other) }
+  const msigLen = hexa2int(hexa.slice(0, 4));
+  const other = hexa.slice(4, 4 + msigLen);
+  return { otherTrans: transaction(other) };
 }
 
 function provisionNamespace(hexa) {
