@@ -64,7 +64,46 @@ function transfer(hexa) {
       payload: hexa2utf8(hexa.slice(64, 64 + payloadLen)),
     };
   }
-  // TODO: mosaic transfer
+
+  const mosaicsLen = hexa2int(hexa.slice(56 + msgLen, 56 + msgLen + 4));
+  // without mosaics
+  if (mosaicsLen <= 0) { return obj; }
+
+  const mosaics = [];
+  const mosaicsOffset = 60 + msgLen;
+  let offset = 0;
+  for (let i = 0; i < mosaicsLen; i++) {
+    const moLen = hexa2int(hexa.slice(mosaicsOffset + offset, mosaicsOffset + offset + 4));
+    const nsNameLen = hexa2int(hexa.slice(
+      offset + mosaicsOffset + 8,
+      offset + mosaicsOffset + 12,
+    ));
+    const moNameLen = hexa2int(hexa.slice(
+      offset + mosaicsOffset + 12 + nsNameLen,
+      offset + mosaicsOffset + 12 + nsNameLen + 4,
+    ));
+    const ns = hexa2utf8(hexa.slice(
+      offset + mosaicsOffset + 12,
+      offset + mosaicsOffset + 12 + nsNameLen,
+    ));
+    const name = hexa2utf8(hexa.slice(
+      offset + mosaicsOffset + 16 + nsNameLen,
+      offset + mosaicsOffset + 16 + nsNameLen + moNameLen,
+    ));
+    const quantity = hexa2int(hexa.slice(
+      offset + mosaicsOffset + 16 + nsNameLen + moNameLen,
+      offset + mosaicsOffset + 16 + nsNameLen + moNameLen + 8,
+    ));
+    mosaics.push({
+      mosaicId: {
+        namespaceId: ns,
+        name,
+      },
+      quantity,
+    });
+    offset += moLen + 4;
+  }
+  obj.mosaics = mosaics;
   return obj;
 }
 
