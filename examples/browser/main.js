@@ -18,6 +18,9 @@ window.addEventListener('DOMContentLoaded', function () {
       messageType2str: function (type) {
         return type === 1 ? 'Plain' : 'Encrypted'
       },
+      mosaicId2str: function (mosaicId) {
+        return `${mosaicId['namespaceId']}:${mosaicId['name']}`
+      },
       type2str: function (type) {
         return type
       },
