@@ -39,14 +39,24 @@
       <div class="row" v-if="deserialized['mosaics']">
         <div class="column">
           <label>Mosaic</label>
-          <div class="row" v-for="mos in deserialized['mosaics']">
-            <div class="column column-50">
-              <input readonly :value="mos['mosaicId'] | mosaicId2str" />
-            </div>
-            <div class="column column-50">
-              <input readonly :value="mos['quantity']" />
-            </div>
-          </div>
+          <table>
+            <thead>
+              <tr>
+                <td>Namespace:Name</td>
+                <td>Quantity</td>
+              </tr>
+            </thead>
+            <tbody>
+              <tr v-for="mos in deserialized['mosaics']">
+                <td>
+                  <input readonly :value="mos['mosaicId'] | mosaicId2str" />
+                </td>
+                <td>
+                  <input readonly :value="mos['quantity']" />
+                </td>
+              </tr>
+            </tbody>
+          </table>
         </div>
       </div>
       <div class="row" v-if="deserialized['message']">
