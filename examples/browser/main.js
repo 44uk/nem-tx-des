@@ -8,7 +8,7 @@ window.addEventListener('DOMContentLoaded', function () {
     },
     filters: {
       uxem2xem: function (uxem) {
-        return uxem ? uxem / 1000000 : ''
+        return Number.isInteger(uxem) ? uxem / 1000000 : ''
       },
       nemtime2time: function (nemtime) {
         return nemtime ?
