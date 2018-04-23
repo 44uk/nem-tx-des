@@ -102,6 +102,54 @@
           <input readonly :value="deserialized['version'] | version2str" />
         </div>
       </div>
+
+      <div v-if="deserialized['multisig']">
+        <hr />
+        <div class="row">
+          <div class="column">
+            <h1>Multisig</h1>
+          </div>
+        </div>
+        <div class="row">
+          <div class="column">
+            <label>Fee</label>
+            <input readonly :value="deserialized['fee'] | uxem2xem" />
+          </div>
+        </div>
+        <div class="row">
+          <div class="column">
+            <label>Timestamp</label>
+            <input readonly :value="deserialized['multisig']['timeStamp'] | nemtime2time" />
+          </div>
+        </div>
+        <div class="row">
+          <div class="column">
+            <label>Deadline</label>
+            <input readonly :value="deserialized['multisig']['deadline'] | nemtime2time" />
+          </div>
+        </div>
+        <div class="row">
+          <div class="column">
+            <label>Singer</label>
+            <input readonly :value="deserialized['multisig']['signer']" />
+          </div>
+        </div>
+        <div class="row">
+          <div class="column">
+            <label>Type</label>
+            <input readonly :value="deserialized['multisig']['type'] | type2str" />
+          </div>
+        </div>
+        <div class="row">
+          <div class="column">
+            <label>Version</label>
+            <input readonly :value="deserialized['multisig']['version'] | version2str" />
+          </div>
+        </div>
+      </div>
+
+      <hr />
+
       <div class="row">
         <div class="column">
           <label>Signature</label>
