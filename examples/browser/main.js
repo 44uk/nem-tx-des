@@ -32,11 +32,14 @@ window.addEventListener('DOMContentLoaded', function () {
       deserialized: function () {
         if (this.serialized == '' || this.serialized == null) { return {} }
         try {
+          let result = {}
           const json = JSON.parse(this.serialized);
           const parsed = nemTxDes.parse(json['data'])
           this.signature = json['signature']
           this.message = null
-          return parsed
+          result = parsed['otherTrans'] ? parsed['otherTrans'] : parsed
+          result['multisig'] = parsed['otherTrans'] ? parsed : null
+          return result
         } catch(err) {
           console.error(err.message)
           this.message = err.message
