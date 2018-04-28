@@ -33,8 +33,8 @@ window.addEventListener('DOMContentLoaded', function () {
         if (this.serialized == '' || this.serialized == null) { return {} }
         try {
           let result = {}
-          const json = JSON.parse(this.serialized);
-          const parsed = nemTxDes.parse(json['data'])
+          var json = JSON.parse(this.serialized);
+          var parsed = nemTxDes.parse(json['data'])
           this.signature = json['signature']
           this.message = null
           result = parsed['otherTrans'] ? parsed['otherTrans'] : parsed
@@ -45,6 +45,34 @@ window.addEventListener('DOMContentLoaded', function () {
           this.message = err.message
           return {}
         }
+      }
+    },
+    methods: {
+      change_file: function () {
+        var file = this.$refs.file.files[0]
+        if (!/^image\/(jpe?g|png|gif)/.test(file.type)) {
+          console.error('Allowed only image file.')
+          this.message = 'Allowed only image file.'
+          return false
+        }
+        var self = this
+        var reader = new FileReader()
+        reader.onload = function (_ev) {
+          var img = new Image()
+          var cvs = document.createElement('canvas')
+          var ctx = cvs.getContext('2d')
+          img.onload = function (_ev) {
+            cvs.width = img.width
+            cvs.height = img.height
+            ctx.drawImage(img, 0, 0)
+            imgData = ctx.getImageData(0, 0, cvs.width, cvs.height)
+            var qr = jsQR(imgData.data, imgData.width, imgData.height)
+            self.serialized = qr.data
+            self.message = null
+          }
+          img.src = reader.result
+        }
+        reader.readAsDataURL(file)
       }
     }
   })
