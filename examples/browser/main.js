@@ -1,4 +1,15 @@
 window.addEventListener('DOMContentLoaded', function () {
+  var TYPES = {
+    257:   'TRANSFER',
+    2049:  'IMPORTANCE_TRANSFER',
+    4097:  'MULTISIG_AGGREGATE_MODIFICATION',
+    4098:  'MULTISIG_SIGNATURE',
+    4100:  'MULTISIG',
+    8193:  'PROVISION_NAMESPACE',
+    16385: 'MOSAIC_DEFINITION_CREATION',
+    16386: 'MOSAIC_SUPPLY_CHANGE'
+  }
+
   var app = new Vue({
     el: '#app',
     data: {
@@ -22,10 +33,13 @@ window.addEventListener('DOMContentLoaded', function () {
         return `${mosaicId['namespaceId']}:${mosaicId['name']}`
       },
       type2str: function (type) {
-        return type
+        var typeStr = TYPES[type]
+        return typeStr ? typeStr : 'UnknownType'
       },
       version2str: function (version) {
-        return version
+        // TODO:
+        var versionStr = version
+        return versionStr ? versionStr : 'UnknownVersion'
       }
     },
     computed: {

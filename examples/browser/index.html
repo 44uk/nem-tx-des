@@ -24,7 +24,7 @@
         <div class="column">
           <label>Offline Transaction</label>
           <textarea v-model="serialized" placeholder="Paste offline transaction (JSON)"></textarea>
-          <label>or Drop QRCode image</label>
+          <label>or select QR Code image</label>
           <input type="file" accept="image/*" @change="change_file" ref="file" />
         </div>
       </div>
@@ -105,13 +105,13 @@
       <div class="row">
         <div class="column">
           <label>Type</label>
-          <input readonly :value="deserialized['type'] | type2str" />
+          <input readonly :value="deserialized['type']" />
         </div>
       </div>
       <div class="row">
         <div class="column">
           <label>Version</label>
-          <input readonly :value="deserialized['version'] | version2str" />
+          <input readonly :value="deserialized['version']" />
         </div>
       </div>
 
