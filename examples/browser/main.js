@@ -1,4 +1,29 @@
 window.addEventListener('DOMContentLoaded', function () {
+  // copy from http://phiary.me/javascript-url-parameter-query-string-parse-stringify/
+  var QueryString = {
+    parse: function(text, sep, eq, isDecode) {
+      text = text || location.search.substr(1);
+      sep = sep || '&';
+      eq = eq || '=';
+      var decode = (isDecode) ? decodeURIComponent : function(a) { return a; };
+      return text.split(sep).reduce(function(obj, v) {
+        var pair = v.split(eq);
+        obj[pair[0]] = decode(pair[1]);
+        return obj;
+      }, {});
+    },
+    stringify: function(value, sep, eq, isEncode) {
+      sep = sep || '&';
+      eq = eq || '=';
+      var encode = (isEncode) ? encodeURIComponent : function(a) { return a; };
+      return Object.keys(value).map(function(key) {
+        return key + eq + encode(value[key]);
+      }).join(sep);
+    },
+  };
+  var params = QueryString.parse()
+  var serialized = params['data'] ? JSON.stringify(params) : null
+
   var TYPES = {
     257:   'TRANSFER',
     2049:  'IMPORTANCE_TRANSFER',
@@ -13,7 +38,7 @@ window.addEventListener('DOMContentLoaded', function () {
   var app = new Vue({
     el: '#app',
     data: {
-      serialized: null,
+      serialized: serialized,
       signature: null,
       message: null
     },
