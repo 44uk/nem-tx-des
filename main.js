@@ -1,8 +1,44 @@
 window.addEventListener('DOMContentLoaded', function () {
+  // copy from http://phiary.me/javascript-url-parameter-query-string-parse-stringify/
+  var QueryString = {
+    parse: function(text, sep, eq, isDecode) {
+      text = text || location.search.substr(1);
+      sep = sep || '&';
+      eq = eq || '=';
+      var decode = (isDecode) ? decodeURIComponent : function(a) { return a; };
+      return text.split(sep).reduce(function(obj, v) {
+        var pair = v.split(eq);
+        obj[pair[0]] = decode(pair[1]);
+        return obj;
+      }, {});
+    },
+    stringify: function(value, sep, eq, isEncode) {
+      sep = sep || '&';
+      eq = eq || '=';
+      var encode = (isEncode) ? encodeURIComponent : function(a) { return a; };
+      return Object.keys(value).map(function(key) {
+        return key + eq + encode(value[key]);
+      }).join(sep);
+    },
+  };
+  var params = QueryString.parse()
+  var serialized = params['data'] ? JSON.stringify(params) : null
+
+  var TYPES = {
+    257:   'TRANSFER',
+    2049:  'IMPORTANCE_TRANSFER',
+    4097:  'MULTISIG_AGGREGATE_MODIFICATION',
+    4098:  'MULTISIG_SIGNATURE',
+    4100:  'MULTISIG',
+    8193:  'PROVISION_NAMESPACE',
+    16385: 'MOSAIC_DEFINITION_CREATION',
+    16386: 'MOSAIC_SUPPLY_CHANGE'
+  }
+
   var app = new Vue({
     el: '#app',
     data: {
-      serialized: null,
+      serialized: serialized,
       signature: null,
       message: null
     },
@@ -22,10 +58,13 @@ window.addEventListener('DOMContentLoaded', function () {
         return `${mosaicId['namespaceId']}:${mosaicId['name']}`
       },
       type2str: function (type) {
-        return type
+        var typeStr = TYPES[type]
+        return typeStr ? typeStr : 'UnknownType'
       },
       version2str: function (version) {
-        return version
+        // TODO:
+        var versionStr = version
+        return versionStr ? versionStr : 'UnknownVersion'
       }
     },
     computed: {
